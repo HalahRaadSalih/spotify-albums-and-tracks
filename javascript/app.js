@@ -63,18 +63,39 @@ function displayAlbumsAndTracks(event) {
   // These two lines can be deleted. They're mostly for show. 
   console.log("you clicked on:");
   console.log($(event.target).attr('data-spotify-id'));//.attr('data-spotify-id'));
+   var artistID = $(event.target).attr('data-spotify-id');
+   
+  getArtistAlbums(artistID);
 }
 
 /* YOU MAY WANT TO CREATE HELPER FUNCTIONS OF YOUR OWN */
 /* THEN CALL THEM OR REFERENCE THEM FROM displayAlbumsAndTracks */
 /* THATS PERFECTLY FINE, CREATE AS MANY AS YOU'D LIKE */
 
-function getArtistAlbums(aristID){
+function getArtistAlbums(artistID){
+  var albums = [];
+  var albumsRequest = $.ajax({
+          type: "GET",
+          dataType: 'json',
+          url: "https://api.spotify.com/v1/artists/"+artistID+"/albums"
+      });
+
+  albumsRequest.done(function(data){
+    albums = data.items;
+
+    albums.forEach(function(album){
+        console.log(album.name);
+    });
+  });
+
+  albumsRequest.error(function (error){
+     console.log(error);
+  });
   return [];
 }
 
-function getTrakcsAlbums(artisrID){
-
+function getTrakcsofAlbum(trackID){
+  return [];
 }
 
 function displayAlbums(albums){
@@ -82,5 +103,5 @@ function displayAlbums(albums){
 }
 
 function displayTracks(tracks){
-  
+
 }
