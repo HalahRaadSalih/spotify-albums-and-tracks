@@ -64,7 +64,7 @@ function displayAlbumsAndTracks(event) {
   console.log("you clicked on:");
   console.log($(event.target).attr('data-spotify-id'));//.attr('data-spotify-id'));
    var artistID = $(event.target).attr('data-spotify-id');
-   
+
   getArtistAlbums(artistID);
 }
 
@@ -74,6 +74,8 @@ function displayAlbumsAndTracks(event) {
 
 function getArtistAlbums(artistID){
   var albums = [];
+  var albumsArea = $('#albums-and-tracks');
+
   var albumsRequest = $.ajax({
           type: "GET",
           dataType: 'json',
@@ -84,7 +86,7 @@ function getArtistAlbums(artistID){
     albums = data.items;
 
     albums.forEach(function(album){
-        console.log(album.name);
+      displayAlbum(album, albumsArea);
     });
   });
 
@@ -98,8 +100,10 @@ function getTrakcsofAlbum(trackID){
   return [];
 }
 
-function displayAlbums(albums){
-
+function displayAlbum(album, displayArea){
+  var albumLi = $("<li>" + album.name + " - " + album.id + "</li>")
+          albumLi.attr('album-spotify-id', album.id);
+          displayArea.append(albumLi);
 }
 
 function displayTracks(tracks){
