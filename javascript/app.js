@@ -1,6 +1,12 @@
 // Self envoking function! once the document is ready, bootstrap our application.
 // We do this to make sure that all the HTML is rendered before we do things 
-// like attach event listeners and any dom manipulation.  
+// like attach event listeners and any dom manipulation. 
+var spotifyURL =  "https://api.spotify.com/v1";
+var artistsPart = "artists";
+var albumsPart = "albums";
+var searchPart = "search";
+var slash = "/";
+
 (function(){
   $(document).ready(function(){
     bootstrapSpotifySearch();
@@ -18,7 +24,7 @@ function bootstrapSpotifySearch(){
   $('#spotify-q-button').on("click", function(){
       var spotifyQueryRequest;
       spotifyQueryString = $('#spotify-q').val();
-      searchUrl = "https://api.spotify.com/v1/search?type=artist&q=" + spotifyQueryString;
+      searchUrl = spotifyURL+"/search?type=artist&q=" + spotifyQueryString;
 
       // Generate the request object
       spotifyQueryRequest = $.ajax({
@@ -79,13 +85,17 @@ function getArtistAlbums(artistID){
   var albumsRequest = $.ajax({
           type: "GET",
           dataType: 'json',
-          url: "https://api.spotify.com/v1/artists/"+artistID+"/albums"
+          url: spotifyURL+slash+artistsPart+slash+artistID+slash+albumsPart
       });
 
   albumsRequest.done(function(data){
     albums = data.items;
 
     albums.forEach(function(album){
+      console.log(album);
+
+      getAlbumInfo(album.id);
+
       displayAlbum(album, albumsArea);
     });
   });
@@ -93,7 +103,23 @@ function getArtistAlbums(artistID){
   albumsRequest.error(function (error){
      console.log(error);
   });
+
   return [];
+}
+function getAlbumInfo(albumID){
+  albumReqeust = $.ajax({
+    type: "GET",
+    dataType: "json",
+    url: spotifyURL+slash+albumsPart+slash+albumID
+  });
+
+  albumReqeust.done(function(album){
+    console.log(album.release_date);
+  });
+
+  albumReqeust.error(function(error){
+    console.log(error);
+  });
 }
 
 function getTrakcsofAlbum(trackID){
@@ -101,7 +127,7 @@ function getTrakcsofAlbum(trackID){
 }
 
 function displayAlbum(album, displayArea){
-  var albumLi = $("<li>" + album.name + " - " + album.id + "</li>")
+  var albumLi = $("<li>" + album.name + " - " + album.id + " - " + album.release_date+ "</li>")
           albumLi.attr('album-spotify-id', album.id);
           displayArea.append(albumLi);
 }
