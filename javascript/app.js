@@ -68,3 +68,19 @@ function displayAlbumsAndTracks(event) {
 /* YOU MAY WANT TO CREATE HELPER FUNCTIONS OF YOUR OWN */
 /* THEN CALL THEM OR REFERENCE THEM FROM displayAlbumsAndTracks */
 /* THATS PERFECTLY FINE, CREATE AS MANY AS YOU'D LIKE */
+
+function getArtistAlbums(aristID){
+  return [];
+}
+
+function getTrakcsAlbums(artisrID){
+
+}
+
+function displayAlbums(albums){
+
+}
+
+function displayTracks(tracks){
+  
+}
