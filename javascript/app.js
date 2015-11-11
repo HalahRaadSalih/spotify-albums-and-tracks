@@ -94,11 +94,9 @@ function getArtistAlbums(artistID){
     albums = data.items;
 
     albums.forEach(function(album){
-      // console.log(album);
 
-      getAlbumInfo(album.id);
+    displayAlbum(album, albumsArea);
 
-      displayAlbum(album, albumsArea);
     });
   });
 
@@ -122,7 +120,7 @@ function getAlbumInfo(albumID){
     return album.release_date;;
   });
 
-  albumReqeust.error(function(error){
+  promise = albumReqeust.error(function(error){
     console.log(error);
   });
 
@@ -151,7 +149,8 @@ function getTrakcsofAlbum(albumID){
 
 
 function displayAlbum(album, displayArea){
- 
+ //request album info then display albums then get each track
+ // of an album and display them
  getAlbumInfo(album.id).then(function(albumInfo){
 
   var albumLi = $("<li>" + album.name + 
