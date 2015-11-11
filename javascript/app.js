@@ -88,11 +88,12 @@ function getArtistAlbums(artistID){
           url: spotifyURL+slash+artistsPart+slash+artistID+slash+albumsPart
       });
 
+  
   albumsRequest.done(function(data){
     albums = data.items;
 
     albums.forEach(function(album){
-      console.log(album);
+      // console.log(album);
 
       getAlbumInfo(album.id);
 
@@ -107,19 +108,24 @@ function getArtistAlbums(artistID){
   return [];
 }
 function getAlbumInfo(albumID){
+  var promise;
+
   albumReqeust = $.ajax({
     type: "GET",
     dataType: "json",
     url: spotifyURL+slash+albumsPart+slash+albumID
   });
 
-  albumReqeust.done(function(album){
-    console.log(album.release_date);
+  promise = albumReqeust.done(function(album){
+
+    return album.release_date;;
   });
 
   albumReqeust.error(function(error){
     console.log(error);
   });
+
+  return promise;
 }
 
 function getTrakcsofAlbum(trackID){
@@ -127,11 +133,24 @@ function getTrakcsofAlbum(trackID){
 }
 
 function displayAlbum(album, displayArea){
-  var albumLi = $("<li>" + album.name + " - " + album.id + " - " + album.release_date+ "</li>")
+ 
+ getAlbumInfo(album.id).then(function(albumInfo){
+
+  var albumLi = $("<li>" + album.name + 
+                   " - " + album.id + 
+                   " - " + 
+                    albumInfo.release_date 
+                         + 
+                   "</li>");
+
           albumLi.attr('album-spotify-id', album.id);
           displayArea.append(albumLi);
+        });
+
 }
 
 function displayTracks(tracks){
 
 }
+
+
