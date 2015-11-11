@@ -16,3 +16,7 @@ h1, h2, h3{
 	cursor: pointer;
 	text-decoration: underline;
 }
+
+#albums-and-tracks{
+	list-style-type: none;
+}
