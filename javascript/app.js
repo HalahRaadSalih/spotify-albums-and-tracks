@@ -161,10 +161,10 @@ function displayAlbum(album, displayArea){
 
           albumLi.attr('album-spotify-id', album.id);
           displayArea.append(albumLi);
-          albumLi.append($('<ul id="tracks"></ul>'));
+          albumLi.append($('<ul class="tracks"></ul>'));
         }).then(getTrakcsofAlbum(album.id).then(function(tracks){
             tracks.items.forEach(function(track){
-              displayTracks(track,$('#tracks'));
+              displayTracks(track,$('.tracks'));
             })
         
         }));
